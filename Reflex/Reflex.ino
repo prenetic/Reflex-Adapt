@@ -19,15 +19,15 @@
 #define ENABLE_REFLEX_LOGO //reflex logo on oled display
 #define ENABLE_REFLEX_PAD //pad on oled display
 
-//#define ENABLE_REFLEX_SATURN
-//#define ENABLE_REFLEX_SNES
-//#define ENABLE_REFLEX_PSX
+#define ENABLE_REFLEX_SATURN
+#define ENABLE_REFLEX_SNES
+#define ENABLE_REFLEX_PSX
 //#define ENABLE_REFLEX_PSX_JOG //this is for jogcon forced specific mode. jogcon can still be used with ENABLE_REFLEX_PSX
 //#define ENABLE_REFLEX_PCE
 //#define ENABLE_REFLEX_NEOGEO
 //#define ENABLE_REFLEX_3DO
 //#define ENABLE_REFLEX_JAGUAR
-//#define ENABLE_REFLEX_N64
+#define ENABLE_REFLEX_N64
 //#define ENABLE_REFLEX_GAMECUBE
 //#define ENABLE_REFLEX_WII
 //#define ENABLE_REFLEX_SMS
@@ -476,16 +476,10 @@ void loop() {
     last = micros();
   }
 
-  //Disable oled display after 300 seconds (5 minutes) of no state changed
-  //Any input state change will wake up the display
+  //Disable oled display after 30 seconds of no button presses
+  //Any button press will wake up the display
   #ifdef REFLEX_USE_OLED_DISPLAY
-    if(stateChanged) {
-      if (!oledOn)
-        setOledDisplay(true);
-      else
-        oledDisplayTimer = millis();
-    }
-    if (oledOn && millis() - oledDisplayTimer >= 120000) { //two minutes
+    if (oledOn && millis() - oledDisplayTimer >= 30000) {
       setOledDisplay(false);
     }
   #endif
